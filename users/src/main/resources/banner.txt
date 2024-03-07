@@ -1,0 +1,9 @@
+ __  __     ______     ______     ______     ______
+/\ \/\ \   /\  ___\   /\  ___\   /\  == \   /\  ___\
+\ \ \_\ \  \ \___  \  \ \  __\   \ \  __<   \ \___  \
+ \ \_____\  \/\_____\  \ \_____\  \ \_\ \_\  \/\_____\
+  \/_____/   \/_____/   \/_____/   \/_/ /_/   \/_____/
+
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}
+Created by Maksim Pegov
