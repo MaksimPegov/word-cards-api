@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  postgres:
+  users-db:
     container_name: postgres
     image: postgres
     environment:
@@ -11,6 +11,7 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust # Allow access from any IP address
     volumes:
       - ./postgres:/data/postgres
+
     ports:
       - "5432:5432"
     networks:

@@ -1,0 +1,66 @@
+version: '3.8'
+name: 'postgres-cluster'
+
+services:
+  db_primary:
+    container_name: db_primary
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+      POSTGRES_HOST_AUTH_METHOD: trust # Allow access from any IP address
+    volumes:
+      - ./db_primary:/data/postgres
+    networks:
+      - word-cards
+    restart: unless-stopped
+
+  db_secondary:
+      container_name: db_secondary
+      image: postgres
+      environment:
+        POSTGRES_PASSWORD: password
+        PGDATA: /data/postgres
+        POSTGRES_HOST_AUTH_METHOD: trust # Allow access from any IP address
+      volumes:
+        - ./db_secondary:/data/postgres
+      networks:
+        - word-cards
+      restart: unless-stopped
+
+  pgpool:
+    image: bitnami/pgpool:latest
+    ports:
+      - 5432:5432
+    environment:
+      - PGPOOL_BACKEND_NODES=0:db_primary:5432,1:db_secondary:5432
+      - PGPOOL_POSTGRES_USERNAME=postgres
+      - PGPOOL_POSTGRES_PASSWORD=password
+      - PGPOOL_SR_CHECK_USER=postgres
+      - PGPOOL_SR_CHECK_PASSWORD=password
+      - PGPOOL_ADMIN_USERNAME=admin
+      - PGPOOL_ADMIN_PASSWORD=admin
+    networks:
+      - word-cards
+
+  pgadmin:
+      container_name: pgadmin
+      image: dpage/pgadmin4
+      environment:
+        PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+        PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+        PGADMIN_CONFIG_SERVER_MODE: 'False'
+      volumes:
+        - pgadmin:/var/lib/pgadmin
+      ports:
+        - "5050:80"
+      networks:
+        - word-cards
+      restart: unless-stopped
+
+networks:
+  word-cards:
+    external: true
+
+volumes:
+  pgadmin:
