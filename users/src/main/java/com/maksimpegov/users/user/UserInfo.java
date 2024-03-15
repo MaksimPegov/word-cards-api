@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "All other info about user, that not included in UserDto")
+@ApiModel(value = "User additional information", description = "All other info about user, that are not included in user's DTO")
 public class UserInfo {
     private String username;
     private String created_at;

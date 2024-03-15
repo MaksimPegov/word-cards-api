@@ -6,10 +6,6 @@ import com.maksimpegov.users.models.UserServiceResponse;
 import com.maksimpegov.users.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,9 +15,6 @@ import java.util.Optional;
 
 @Service
 public class UsersService {
-	@Value("${spring.constraints.todos.url}")
-	private String todoMicroserviceUrl;
-
 	@Value("${spring.constraints.security.url}")
 	private String securityMicroserviceUrl;
 
@@ -63,7 +56,7 @@ public class UsersService {
 		}
 	}
 
-	public String loginUser(UserDto userDto) {
+	public Long loginUser(UserDto userDto) {
 		try {
 			User user = mapper.userDtoToUser(userDto);
 
@@ -71,7 +64,7 @@ public class UsersService {
 				throw new ApiRequestException("Invalid request", "Username or password is empty", 400);
 			}
 
-			if (!isUserExists(user.getUsername())) {
+			if (!doesUserExist(user.getUsername())) {
 				throw new ApiRequestException("Not found", "User with this username does not exist", 404);
 			}
 
@@ -80,18 +73,22 @@ public class UsersService {
 			}
 
 			User userFromDb = usersRepository.findByUsername(user.getUsername());
-
+			
+			// TODO: JWT token generation is not implemented yet(API gateway required)
 			// Setting up headers for security microservice
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("Authorization", USER_MICROSERVICE_IDENTIFIER);
-			HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-
-			String url = securityMicroserviceUrl + "/" + userFromDb.getId();
-			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
-			String token = response.getBody();
-
-			userFromDb.hidePassword();
-			return token;
+//			HttpHeaders headers = new HttpHeaders();
+//			headers.set("Authorization", USER_MICROSERVICE_IDENTIFIER);
+//			HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+//
+//			String url = securityMicroserviceUrl + "/" + userFromDb.getId();
+//			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
+//			String token = response.getBody();
+//
+//			userFromDb.hidePassword();
+//			return token;
+			
+			// temporary solution
+			return userFromDb.getId();
 		} catch (ApiRequestException e) {
 			throw e;
 		} catch (Exception e) {
@@ -123,7 +120,7 @@ public class UsersService {
 				throw new ApiRequestException("Invalid request", "Username or password is empty", 400);
 			}
 
-			if (!isUserExists(editRequest.getUsername())) {
+			if (!doesUserExist(editRequest.getUsername())) {
 				throw new ApiRequestException("Not found", "User with this username does not exist", 404);
 			}
 
@@ -154,21 +151,12 @@ public class UsersService {
 			}
 			User user = optionalUser.get();
 
-			// Setting up request for todos microservice
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("userId", String.valueOf(user.getId()));
-			HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-			String url = todoMicroserviceUrl + "/clear";
+			// TODO: Request collection microservice to delete all collections for current user(collection microservice required)
 
-			// request to todos-microservice to delete all todos of this user
-			ResponseEntity<Void> response = restTemplate.exchange(url, HttpMethod.DELETE, httpEntity, Void.class);
-
-			if (response.getStatusCodeValue() < 400) {
+			if (true) { // if collection was deleted successfully 
 				usersRepository.delete(user);
 				new UserServiceResponse(204, "User deleted successfully");
-				return;
 			}
-			new UserServiceResponse(response.getStatusCodeValue(), "Unable to delete user todos");
 		} catch (ApiRequestException e) {
 			throw e;
 		} catch (Exception e) {
@@ -176,7 +164,7 @@ public class UsersService {
 		}
 	}
 
-	private boolean isUserExists(String username) {
+	private boolean doesUserExist(String username) {
 		return usersRepository.findByUsername(username) != null;
 	}
 

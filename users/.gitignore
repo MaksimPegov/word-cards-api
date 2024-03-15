@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+.postgres
+._db/db_primary
+._db/db_secondary

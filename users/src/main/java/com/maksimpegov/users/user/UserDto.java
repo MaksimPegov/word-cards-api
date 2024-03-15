@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "All necessary info about user")
+@ApiModel(value = "User's data transfer object (DTO)", description = "All necessary info about user")
 public class UserDto {
     private String username;
     private String password;

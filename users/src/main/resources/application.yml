@@ -8,7 +8,7 @@ spring:
   datasource:
 #    url: jdbc:postgresql://users-db:5432/usersdb
     url: jdbc:postgresql://localhost:5432/usersdb # for local development
-    username: admin
+    username: word-cards
     password: password
 
   jpa:
@@ -21,8 +21,6 @@ spring:
         format_sql: true
 
   constraints:
-    todos:
-      url: http://todos/api/todos
     users:
       url: http://users/api/users
       path: /api/users

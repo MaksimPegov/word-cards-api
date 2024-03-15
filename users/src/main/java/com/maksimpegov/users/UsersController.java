@@ -26,25 +26,23 @@ public class UsersController {
 
 	@PostMapping(path = "/register")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@ApiOperation(value = "Register new user", notes = "Provide username and password in body")
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "long", paramType = "header")
+	@ApiOperation(value = "New  user registration", notes = "Provide username and password in body")
 	public void registerUser(@RequestBody UserDto userDto) {
 		logger.info("Register new user with username " + userDto.getUsername());
 		usersService.registerUser(userDto);
 	}
 
 	@PostMapping(path = "/login")
-	@ApiOperation(value = "Login user", notes = "Provide username and password in body", response = UserDto.class)
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "long", paramType = "header")
-	public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
+	@ApiOperation(value = "User login", notes = "Provide username and password in body", response = UserDto.class)
+	public ResponseEntity<Long> loginUser(@RequestBody UserDto userDto) {
 		logger.info("Login user with username " + userDto.getUsername());
-		String response = usersService.loginUser(userDto);
+		Long response = usersService.loginUser(userDto);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping
-	@ApiOperation(value = "Get user info", notes = "Provide username in path", response = UserInfo.class)
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "long", paramType = "header")
+	@ApiOperation(value = "Get user info", response = UserInfo.class)
+	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "Long", paramType = "header")
 	public ResponseEntity<UserInfo> getUserInfo(@RequestHeader("userId") Long secureUserId) {
 		logger.info("Get user info for user with id " + secureUserId);
 		UserInfo response = usersService.getUserInfo(secureUserId);
@@ -54,7 +52,6 @@ public class UsersController {
 	@PatchMapping(path = "/password")
 	@ResponseStatus(value = HttpStatus.OK)
 	@ApiOperation(value = "Edit user password", notes = "Provide username, old password and new password in body")
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "long", paramType = "header")
 	public void editPassword(@RequestBody PasswordEditRequest editRequest) {
 		logger.info("Edit password for user " + editRequest.getUsername());
 		usersService.editPassword(editRequest);
@@ -62,8 +59,8 @@ public class UsersController {
 
 	@DeleteMapping
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	@ApiOperation(value = "Delete user", notes = "Provide username and password in body")
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "long", paramType = "header")
+	@ApiOperation(value = "Delete user")
+	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "Long", paramType = "header")
 	public void deleteUser(@RequestHeader("userId") Long secureUserId) {
 		logger.info("Delete user with id " + secureUserId);
 		usersService.deleteUser(secureUserId);
