@@ -6,6 +6,8 @@ services:
     container_name: db_primary
     image: postgres
     environment:
+      POSTGRES_DB: usersdb
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
       POSTGRES_HOST_AUTH_METHOD: trust # Allow access from any IP address
@@ -19,6 +21,8 @@ services:
       container_name: db_secondary
       image: postgres
       environment:
+        POSTGRES_DB: usersdb
+        POSTGRES_USER: postgres
         POSTGRES_PASSWORD: password
         PGDATA: /data/postgres
         POSTGRES_HOST_AUTH_METHOD: trust # Allow access from any IP address
@@ -39,9 +43,12 @@ services:
       - PGPOOL_SR_CHECK_USER=postgres
       - PGPOOL_SR_CHECK_PASSWORD=password
       - PGPOOL_ADMIN_USERNAME=admin
-      - PGPOOL_ADMIN_PASSWORD=admin
+      - PGPOOL_ADMIN_PASSWORD=password
     networks:
       - word-cards
+    depends_on:
+      - db_primary
+      - db_secondary
 
   pgadmin:
       container_name: pgadmin
@@ -57,6 +64,8 @@ services:
       networks:
         - word-cards
       restart: unless-stopped
+      depends_on:
+        - pgpool
 
 networks:
   word-cards:
@@ -64,3 +73,5 @@ networks:
 
 volumes:
   pgadmin:
+  db_primary:
+  db_secondary:

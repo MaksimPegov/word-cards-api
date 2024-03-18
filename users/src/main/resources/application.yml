@@ -8,7 +8,7 @@ spring:
   datasource:
 #    url: jdbc:postgresql://users-db:5432/usersdb
     url: jdbc:postgresql://localhost:5432/usersdb # for local development
-    username: word-cards
+    username: postgres
     password: password
 
   jpa:
