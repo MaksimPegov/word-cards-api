@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/httpRequests" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_commit_ts" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_dynshmem" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_logical/mappings" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_logical/snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_notify" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_replslot" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_serial" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_stat" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_stat_tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_tblspc" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_twophase" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_primary/pg_wal/archive_status" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_commit_ts" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_dynshmem" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_logical/mappings" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_logical/snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_notify" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_replslot" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_serial" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_snapshots" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_stat" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_stat_tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_tblspc" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_twophase" />
+      <excludeFolder url="file://$MODULE_DIR$/_db/db_secondary/pg_wal/archive_status" />
+    </content>
+  </component>
+</module>
