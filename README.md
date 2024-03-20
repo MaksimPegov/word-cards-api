@@ -9,11 +9,24 @@ This project implements a RESTful API using Spring Boot and adheres to a microse
 - Docker
 
 ### 2. Set Up Databases:
-- Navigate to the root directory of the project.
-- Execute the script to initialize your databases:
+Run docker-compose file with databases:
 ```shell
-./_db/init-db.sh
+cd _db
+docker compose up -d
 ```
+#### If you are running databases at firs time you need to configure the database, follow the steps bellow:
+1. Access `pgAdmin` at http://localhost:5050/
+2. Add New Server for `db_primary` with following properties:
+<div>
+    <img src="_media/db_primary_general.png" width="500px" alt="db_primary_general">
+    <img src="_media/db_primary_connection.png" width="500px" alt="db_primary_connection">
+</div>
+
+3. Add New Server for `db_secondary` with following properties:
+<div>
+    <img src="_media/db_secondary_general.png" width="500px" alt="db_secondary_general">
+    <img src="_media/db_secondary_connection.png" width="500px" alt="db_secondary_connection">
+</div>
 
 ### 3. Run services
 - Run `eureka-server` and other services after it
