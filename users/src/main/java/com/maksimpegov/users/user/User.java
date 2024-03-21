@@ -22,11 +22,8 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) // to avoid hibernate extra properties
 public class User {
     @Id
-    @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
-    // creating sequence generator
-    @GeneratedValue(strategy = SEQUENCE, generator = "user_sequence") // every new user will be getting auto-increace id
     @Column(name = "id", updatable = false)
-    private Long id;
+    private String id;
 
     @Column(name = "username", nullable = false)
     private String username;
