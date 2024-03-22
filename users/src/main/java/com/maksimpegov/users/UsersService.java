@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsersService {
@@ -46,6 +47,13 @@ public class UsersService {
 				throw new ApiRequestException("Conflict", "User with this username already exists", 409);
 			}
 
+			// Id generation
+			long currentMillis = System.currentTimeMillis();
+			byte[] bytes = String.valueOf(currentMillis).getBytes();  // Convert current time to byte array
+			UUID timeBasedUUID = UUID.nameUUIDFromBytes(bytes);
+			String userId = timeBasedUUID.toString();
+
+			user.setId(userId);
 			user.encryptPassword();
 			user.setCreated_at(new Date());
 			usersRepository.save(user);
@@ -56,7 +64,7 @@ public class UsersService {
 		}
 	}
 
-	public Long loginUser(UserDto userDto) {
+	public String loginUser(UserDto userDto) {
 		try {
 			User user = mapper.userDtoToUser(userDto);
 
@@ -96,7 +104,7 @@ public class UsersService {
 		}
 	}
 
-	public UserInfo getUserInfo(Long id) {
+	public UserInfo getUserInfo(String id) {
 		try {
 			Optional<User> userFromDb = usersRepository.findById(id);
 
@@ -143,7 +151,7 @@ public class UsersService {
 		}
 	}
 
-	public void deleteUser(Long userId) {
+	public void deleteUser(String userId) {
 		try {
 			Optional<User> optionalUser = usersRepository.findById(userId);
 			if (optionalUser.isEmpty()) {

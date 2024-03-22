@@ -34,16 +34,16 @@ public class UsersController {
 
 	@PostMapping(path = "/login")
 	@ApiOperation(value = "User login", notes = "Provide username and password in body", response = UserDto.class)
-	public ResponseEntity<Long> loginUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
 		logger.info("Login user with username " + userDto.getUsername());
-		Long response = usersService.loginUser(userDto);
+		String response = usersService.loginUser(userDto);
 		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping
 	@ApiOperation(value = "Get user info", response = UserInfo.class)
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "Long", paramType = "header")
-	public ResponseEntity<UserInfo> getUserInfo(@RequestHeader("userId") Long secureUserId) {
+	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "String", paramType = "header")
+	public ResponseEntity<UserInfo> getUserInfo(@RequestHeader("userId") String secureUserId) {
 		logger.info("Get user info for user with id " + secureUserId);
 		UserInfo response = usersService.getUserInfo(secureUserId);
 		return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -60,8 +60,8 @@ public class UsersController {
 	@DeleteMapping
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	@ApiOperation(value = "Delete user")
-	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "Long", paramType = "header")
-	public void deleteUser(@RequestHeader("userId") Long secureUserId) {
+	@ApiImplicitParam(name = "userId", value = "The genuine User ID or requester (extracted from the user's JWT token)", required = true, dataType = "String", paramType = "header")
+	public void deleteUser(@RequestHeader("userId") String secureUserId) {
 		logger.info("Delete user with id " + secureUserId);
 		usersService.deleteUser(secureUserId);
 	}
