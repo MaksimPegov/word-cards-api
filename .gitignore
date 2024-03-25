@@ -1,5 +1,5 @@
 */target/**
-*/.idea/**
+*.idea**
 
 _db/db_primary
 _db/db_secondary
