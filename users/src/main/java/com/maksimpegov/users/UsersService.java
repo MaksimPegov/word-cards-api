@@ -4,6 +4,10 @@ import com.maksimpegov.users.exeption.ApiRequestException;
 import com.maksimpegov.users.models.PasswordEditRequest;
 import com.maksimpegov.users.models.UserServiceResponse;
 import com.maksimpegov.users.user.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -82,21 +86,16 @@ public class UsersService {
 
 			User userFromDb = usersRepository.findByUsername(user.getUsername());
 			
-			// TODO: JWT token generation is not implemented yet(API gateway required)
 			// Setting up headers for security microservice
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.set("Authorization", USER_MICROSERVICE_IDENTIFIER);
-//			HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
-//
-//			String url = securityMicroserviceUrl + "/" + userFromDb.getId();
-//			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
-//			String token = response.getBody();
-//
-//			userFromDb.hidePassword();
-//			return token;
+			HttpHeaders headers = new HttpHeaders();
+			headers.set("Authorization", USER_MICROSERVICE_IDENTIFIER);
+			HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
+
+			String url = securityMicroserviceUrl + "/" + userFromDb.getId();
+			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
+
+            return response.getBody();
 			
-			// temporary solution
-			return userFromDb.getId();
 		} catch (ApiRequestException e) {
 			throw e;
 		} catch (Exception e) {
