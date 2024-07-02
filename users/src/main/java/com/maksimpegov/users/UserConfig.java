@@ -5,6 +5,8 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -29,12 +31,14 @@ public class UserConfig {
                 .paths(PathSelectors.ant(servicePath + "/**"))
                 .apis(RequestHandlerSelectors.basePackage("com.maksimpegov.users"))
                 .build()
-                .apiInfo(new ApiInfo("Users API",
-                        "API for managing users",
-                        "1.0",
-                        null,
-                        null,
-                        null,
-                        null));
+                .apiInfo(apiInfo());
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Users API")
+                .description("API for managing users")
+                .version("1.0")
+                .build();
     }
 }
