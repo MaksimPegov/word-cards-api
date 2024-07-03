@@ -27,7 +27,7 @@ public class UsersController {
 
 	@PostMapping(path = "/register")
 	@ResponseStatus(value = HttpStatus.CREATED)
-	@ApiOperation(value = "New  user registration", notes = "Provide username and password in body")
+	@ApiOperation(value = "New  user registration", notes = "Provide username and password in body. Username: min 3 symbols, password: min 6 symbols")
 	public void registerUser(@RequestBody UserDto userDto) {
 		logger.info("Register new user with username " + userDto.getUsername());
 		usersService.registerUser(userDto);

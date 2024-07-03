@@ -46,7 +46,7 @@ public class UsersService {
 			if (user.getUsername() == null || user.getPassword() == null) {
 				throw new ApiRequestException("Invalid request", "Username or password is empty", 400);
 			} else if (!user.userValidation()) {
-				throw new ApiRequestException("Invalid request", "Username or password is not valid. Username: min 3 symbols, password: min 6 symbols)", 400);
+				throw new ApiRequestException("Invalid request", "Username or password is not valid", 400);
 
 			} else if (usersRepository.findByUsername(user.getUsername()) != null) {
 				throw new ApiRequestException("Conflict", "User with this username already exists", 409);
@@ -142,7 +142,7 @@ public class UsersService {
 			userFromDb.encryptPassword();
 
 			if (!userFromDb.userValidation()) {
-				throw new ApiRequestException("Invalid request", "New password is not valid. Password: min 6 symbols", 400);
+				throw new ApiRequestException("Invalid request", "New password is not valid", 400);
 			}
 			usersRepository.save(userFromDb); // everything is ok, save new password
 		} catch (ApiRequestException e) {
