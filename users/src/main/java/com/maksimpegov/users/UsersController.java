@@ -1,6 +1,7 @@
 package com.maksimpegov.users;
 
 import com.maksimpegov.users.models.PasswordEditRequest;
+import com.maksimpegov.users.models.TokenDto;
 import com.maksimpegov.users.user.UserDto;
 import com.maksimpegov.users.user.UserInfo;
 import io.swagger.annotations.Api;
@@ -34,9 +35,9 @@ public class UsersController {
 
 	@PostMapping(path = "/login")
 	@ApiOperation(value = "User login", notes = "Provide username and password in body", response = UserDto.class)
-	public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<TokenDto> loginUser(@RequestBody UserDto userDto) {
 		logger.info("Login user with username " + userDto.getUsername());
-		String response = usersService.loginUser(userDto);
+		TokenDto response = usersService.loginUser(userDto);
 		return ResponseEntity.ok(response);
 	}
 

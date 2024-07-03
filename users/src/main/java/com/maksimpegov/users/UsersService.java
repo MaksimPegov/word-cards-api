@@ -3,6 +3,7 @@ package com.maksimpegov.users;
 import com.maksimpegov.users.exeption.ApiRequestException;
 import com.maksimpegov.users.models.PasswordEditRequest;
 import com.maksimpegov.users.models.UserServiceResponse;
+import com.maksimpegov.users.models.TokenDto;
 import com.maksimpegov.users.user.*;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -68,7 +69,7 @@ public class UsersService {
 		}
 	}
 
-	public String loginUser(UserDto userDto) {
+	public TokenDto loginUser(UserDto userDto) {
 		try {
 			User user = mapper.userDtoToUser(userDto);
 
@@ -94,7 +95,8 @@ public class UsersService {
 			String url = securityMicroserviceUrl + "/" + userFromDb.getId();
 			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, httpEntity, String.class);
 
-            return response.getBody();
+			String token = response.getBody();
+      return new TokenDto(token);
 			
 		} catch (ApiRequestException e) {
 			throw e;
