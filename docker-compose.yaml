@@ -1,7 +1,6 @@
-version: '3.1'
 services:
-  postgres-db:
-    container_name: postgres-db
+  users-db:
+    container_name: users-db
     image: postgres
     restart: unless-stopped
     environment:
@@ -12,6 +11,38 @@ services:
       - "5432:5432"
     volumes:
       - ./db-volume:/data/postgres
+
+  users:
+    container_name: users
+    build:
+      context: ./users
+      dockerfile: Dockerfile
+    ports:
+      - "9002:9002"
+    depends_on:
+      - users-db
+      - eureka-server
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "9001:9001"
+    depends_on:
+      - users
+      - eureka-server
+
+  eureka-server:
+    container_name: eureka-server
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    depends_on:
+      - users-db
 
 volumes:
   db-volume:
