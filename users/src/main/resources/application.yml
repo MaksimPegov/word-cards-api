@@ -1,4 +1,5 @@
 server:
+  address: "::"
   port: 9002
 
 spring:
@@ -27,15 +28,9 @@ spring:
       url: http://users/api/users
       path: /api/users
     security:
-      url: http://api-gateway/api/security
+      url: http://api-gateway:9001/api/security
       path: /api/security
     userMicroserviceIdentifier: secret-key
-
-eureka:
-  client:
-    service-url:
-     defaultZone: http://eureka-server:8761/eureka/
-      # defaultZone: http://localhost:8761/eureka/ # for local development
 
 logging:
   level:

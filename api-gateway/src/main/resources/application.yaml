@@ -1,4 +1,5 @@
 server:
+  # address: ::1
   port: 9001
 
 spring:
@@ -7,7 +8,6 @@ spring:
 
   constraints:
     blockedPath:
-#      clearTodos: todos/clear
       createToken: api/security
     userMicroserviceIdentifier: secret-key
 
@@ -24,36 +24,12 @@ spring:
               - DELETE
             allowedHeaders:
               - "*"
-            # allowCredentials: true
       routes:
-#        - id: todo-service
-#          uri: lb://todos
-#          predicates:
-#            - Path=/api/todos/**
 
         - id: user-service
-          uri: lb://users
+          uri: http://users.railway.internal:9002
           predicates:
             - Path=/api/users/**
-
-        - id: eureka-server
-          uri: http://eureka-server:8761
-          predicates:
-            - Path=/eureka/web
-          filters:
-            - SetPath=/
-
-        - id: eureka-server-static
-          uri: http://eureka-server:8761
-          predicates:
-            - Path=/eureka/**
-
-
-eureka:
-  client:
-    service-url:
-     defaultZone: http://eureka-server:8761/eureka/
-      # defaultZone: http://localhost:8761/eureka/ # for local development
 
 logging:
   level:
